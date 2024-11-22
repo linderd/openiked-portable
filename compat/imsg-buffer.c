@@ -1,4 +1,4 @@
-/*	$OpenBSD: imsg-buffer.c,v 1.33 2025/06/04 09:04:52 claudio Exp $	*/
+/*	$OpenBSD: imsg-buffer.c,v 1.30 2024/11/22 07:20:50 tb Exp $	*/
 
 /*
  * Copyright (c) 2023 Claudio Jeker <claudio@openbsd.org>
