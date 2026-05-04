@@ -2,8 +2,11 @@ name: ClusterFuzzLite PR fuzzing
 on:
   pull_request:
     paths:
+      - iked/CMakeLists.txt
       - iked/ikev2_pld.c
       - regress/parser-libfuzzer/**
+      - CMakeLists.txt
+      - .clusterfuzzlite/**
 permissions: read-all
 jobs:
   PR:
