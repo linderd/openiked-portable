@@ -164,7 +164,7 @@ vroute_setaddr(struct iked *env, int add, struct sockaddr *addr,
 
 	switch(addr->sa_family) {
 	case AF_INET:
-		bzero(&mask, sizeof(mask));
+		bzero(&mask4, sizeof(mask4));
 		mask4.sin_addr.s_addr = prefixlen2mask(mask ? mask : 32);
 		mask4.sin_family = AF_INET;
 
