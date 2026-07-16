@@ -110,7 +110,7 @@ jobs:
       with:
         usesh: true
         envs: 'BUILD_TYPE'
-        prepare: pkg_add cmake git
+        prepare: pkg_add cmake
         run: |
           mkdir build; cd build
           cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
@@ -128,7 +128,7 @@ jobs:
       with:
         usesh: true
         envs: 'BUILD_TYPE'
-        prepare: pkg install -y cmake libevent git
+        prepare: pkg install -y cmake libevent
         run: |
           mkdir build; cd build
           cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
@@ -146,7 +146,7 @@ jobs:
       with:
         usesh: true
         envs: 'BUILD_TYPE'
-        prepare: pkgin -y install cmake libevent
+        prepare: pkg_add cmake libevent
         run: |
           mkdir build; cd build
           cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
