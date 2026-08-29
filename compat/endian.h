@@ -10,7 +10,8 @@
 #include_next <endian.h>
 #endif /* HAVE_ENDIAN_H */
 
-#if defined(__APPLE__) && !defined(HAVE_ENDIAN_H)
+#ifdef __APPLE__
+#ifndef HAVE_ENDIAN_H
 #include <libkern/OSByteOrder.h>
 #define betoh16(x) OSSwapBigToHostInt16((x))
 #define htobe16(x) OSSwapHostToBigInt16((x))
@@ -23,7 +24,17 @@
 #define be16toh betoh16
 #define be32toh betoh32
 #define be64toh betoh64
-#endif /* __APPLE__ && !HAVE_ENDIAN_H */
+#endif /* !HAVE_ENDIAN_H */
+#if !defined(betoh16)
+#define betoh16	be16toh
+#endif
+#if !defined(betoh32)
+#define betoh32	be32toh
+#endif
+#if !defined(betoh64)
+#define betoh64	be64toh
+#endif
+#endif /* __APPLE__ */
 
 #if defined(_WIN32) && !defined(HAVE_ENDIAN_H)
 #include <winsock2.h>
