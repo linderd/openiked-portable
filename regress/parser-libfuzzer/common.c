@@ -200,9 +200,20 @@ config_free_proposal(struct iked_proposals *head, struct iked_proposal *prop)
 	return;
 }
 
+/* copied from config.c */
 void config_free_fragments(struct iked_frag *frag)
 {
-	return;
+	size_t i;
+
+	if (frag && frag->frag_arr) {
+		for (i = 0; i < frag->frag_total; i++) {
+			if (frag->frag_arr[i] != NULL)
+				free(frag->frag_arr[i]->frag_data);
+			free(frag->frag_arr[i]);
+		}
+		free(frag->frag_arr);
+		bzero(frag, sizeof(struct iked_frag));
+	}
 }
 
 int
@@ -220,12 +231,8 @@ ikev2_msg_decrypt(struct iked *env, struct iked_sa *sa,
                 exit(-1);
         }
 
-	/*
-	 * Free src as caller uses ikev2_msg_decrypt() like this:
-	 * src = ikev2_msg_decrypt(..., src);
-	 */
-	ibuf_free(src);	
-	return (NULL);
+	/* do no really decryption */
+	return (src);
 }
 
 void
