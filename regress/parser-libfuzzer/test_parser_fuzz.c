@@ -89,12 +89,12 @@ prepare_message(struct iked_message *msg, struct ibuf *data)
 {
 	static struct iked_sa	sa;
 
+	config_free_fragments(&sa.sa_fragments);
 	bzero(&sa, sizeof(sa));
 	bzero(msg, sizeof(*msg));
 
 	msg->msg_sa = &sa;
 	msg->msg_data = data;
-	msg->msg_e = 1;
 	msg->msg_parent = msg;
 
 	TAILQ_INIT(&msg->msg_proposals);
@@ -105,10 +105,12 @@ prepare_message(struct iked_message *msg, struct ibuf *data)
 int
 LLVMFuzzerTestOneInput(const char *data, size_t size)
 {
+	static struct iked	 env;
 	struct ibuf		*fuzzed;
 	struct ike_header	 hdr;
 	struct iked_message	 msg;
 
+	bzero(&env, sizeof(env));
 	bzero(&hdr, sizeof(hdr));
 	bzero(&msg, sizeof(msg));
 
@@ -128,9 +130,9 @@ LLVMFuzzerTestOneInput(const char *data, size_t size)
 	prepare_header(&hdr, fuzzed);
 	prepare_message(&msg, fuzzed);
 
-	ikev2_pld_parse(NULL, &hdr, &msg, 0);
+	ikev2_pld_parse(&env, &hdr, &msg, 0);
 
-	ikev2_msg_cleanup(NULL, &msg);
+	ikev2_msg_cleanup(&env, &msg);
 
 	return 0;
 }
